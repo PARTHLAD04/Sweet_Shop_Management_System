@@ -21,7 +21,7 @@ router.post('/',authMiddleware,adminMiddleware,async (req, res) => {
 router.get('/',authMiddleware, async (req, res) => {
   try{
     const sweets =  await Sweet.find({});
-    res.status(200).json({reportErroresponse: sweets});
+    res.status(200).json({response: sweets});
   }catch(err){
     console.error(err);
     res.status(500).json({message: "Internal Server Error",error: err});
@@ -87,7 +87,7 @@ router.get('/search',authMiddleware, async (req, res) => {
 // Purchase sweets
 router.post('/:id/purchase',authMiddleware, async (req, res) => {
     const sweetId = req.params.id;
-    const {quantity} = req.body;
+    const quantity = Number(req.body.quantity);
     try {
         const sweet = await Sweet.findById(sweetId);
         if (!sweet) {
@@ -108,7 +108,7 @@ router.post('/:id/purchase',authMiddleware, async (req, res) => {
 // Restock sweets
 router.post('/:id/restock',authMiddleware,adminMiddleware, async (req, res) => {
     const sweetId = req.params.id;
-    const { quantity } = req.body;
+    const quantity = Number(req.body.quantity);
     try {
         const sweet = await Sweet.findById(sweetId);
         if (!sweet) {
