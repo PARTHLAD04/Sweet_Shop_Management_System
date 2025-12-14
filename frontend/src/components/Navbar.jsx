@@ -6,36 +6,59 @@ export default function Navbar() {
   const role = localStorage.getItem('role');
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    navigate('/');
+    localStorage.clear();
+    navigate('/login');
   };
 
   return (
-    <nav style={styles.nav}>
-      <h2 style={styles.logo}>🍬 Sweet Shop</h2>
-      <div style={styles.links}>
-        {token ? (
+    <nav
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '10px 20px',
+        backgroundColor: '#222',
+        color: '#fff',
+      }}
+    >
+      {/* SHOP NAME */}
+      <h2>Sweets Shop 🍬</h2>
+
+      {/* NAV LINKS */}
+      <div>
+        {token && (
+          <Link
+            to={role === 'admin' ? '/admin' : '/dashboard'}
+            style={{ color: '#fff', marginRight: 15 }}
+          >
+            Home
+          </Link>
+        )}
+
+        {!token && (
           <>
-            <Link style={styles.link} to="/dashboard">Dashboard</Link>
-            {role === 'admin' && <Link style={styles.link} to="/add-sweet">Add Sweet</Link>}
-            <button style={styles.button} onClick={handleLogout}>Logout</button>
+            <Link to="/login" style={{ color: '#fff', marginRight: 15 }}>
+              Login
+            </Link>
+            <Link to="/register" style={{ color: '#fff' }}>
+              Sign Up
+            </Link>
           </>
-        ) : (
-          <>
-            <Link style={styles.link} to="/">Login</Link>
-            <Link style={styles.link} to="/register">Register</Link>
-          </>
+        )}
+
+        {token && (
+          <button
+            onClick={handleLogout}
+            style={{
+              marginLeft: 15,
+              padding: '5px 10px',
+              cursor: 'pointer',
+            }}
+          >
+            Logout
+          </button>
         )}
       </div>
     </nav>
   );
 }
-
-const styles = {
-  nav: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', backgroundColor: '#1e293b', color: '#fff' },
-  logo: { margin: 0 },
-  links: { display: 'flex', gap: '15px', alignItems: 'center' },
-  link: { color: '#fff', textDecoration: 'none' },
-  button: { padding: '5px 10px', cursor: 'pointer' }
-};

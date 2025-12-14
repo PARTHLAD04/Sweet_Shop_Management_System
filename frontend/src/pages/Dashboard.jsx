@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../api/api';
+import SweetCard from '../components/SweetCard';
 
 export default function Dashboard() {
     const [sweets, setSweets] = useState([]);
-
-    const [name, setName] = useState('');
-    const [category, setCategory] = useState('');
-    const [minPrice, setMinPrice] = useState('');
-    const [maxPrice, setMaxPrice] = useState('');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         fetchSweets();
@@ -16,26 +13,29 @@ export default function Dashboard() {
     // Fetch all sweets
     const fetchSweets = async () => {
         const data = await apiRequest('/sweets');
-        setSweets(data.response);
+        setSweets(data.response || []);
     };
 
-    // 🔍 Advanced Search
+    // 🔍 UNIVERSAL SEARCH
     const handleSearch = async () => {
-        const params = new URLSearchParams();
+        const query = search.trim();
 
-        if (name) params.append('name', name);
-        if (category) params.append('category', category);
-        if (minPrice) params.append('minPrice', minPrice);
-        if (maxPrice) params.append('maxPrice', maxPrice);
+        if (!query) {
+            fetchSweets();
+            return;
+        }
 
-        const data = await apiRequest(`/sweets/search?${params.toString()}`);
-        setSweets(data.response);
+        const data = await apiRequest(`/sweets/search?q=${query}`);
+        setSweets(data.response || []);
     };
 
     // USER PURCHASE
     const purchaseSweet = async (id) => {
         const qty = prompt('Enter quantity to purchase');
-        if (!qty || qty <= 0) return alert('Invalid quantity');
+
+        if (!qty || Number(qty) <= 0) {
+            return alert('Invalid quantity');
+        }
 
         await apiRequest(`/sweets/${id}/purchase`, {
             method: 'POST',
@@ -46,77 +46,56 @@ export default function Dashboard() {
         fetchSweets();
     };
 
-    // Reset filters
-    const resetFilters = () => {
-        setName('');
-        setCategory('');
-        setMinPrice('');
-        setMaxPrice('');
-        fetchSweets();
-    };
-
     return (
         <div style={{ padding: 20 }}>
-            <h2>Dashboard</h2>
+            <h2>User Dashboard</h2>
 
-            {/* 🔍 SEARCH & FILTERS */}
-            <div style={{ marginBottom: 20, border: '1px solid #ccc', padding: 10 }}>
+            {/* 🔍 SINGLE SEARCH BAR */}
+            <div style={{ marginBottom: 20 }}>
                 <input
-                    placeholder="Search by name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-
-                <input
-                    placeholder="Category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                />
-
-                <input
-                    type="number"
-                    placeholder="Min Price"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                />
-
-                <input
-                    type="number"
-                    placeholder="Max Price"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
+                    type="text"
+                    placeholder="Search by name, category or price"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                    style={{
+                        width: 280,
+                        padding: 8,
+                        marginRight: 10,
+                    }}
                 />
 
                 <button onClick={handleSearch}>Search</button>
-                <button onClick={resetFilters} style={{ marginLeft: 5 }}>
+
+                <button
+                    onClick={() => {
+                        setSearch('');
+                        fetchSweets();
+                    }}
+                    style={{ marginLeft: 5 }}
+                >
                     Reset
                 </button>
             </div>
 
             {sweets.length === 0 && <p>No sweets found</p>}
 
-            {sweets.map((s) => (
-                <div
-                    key={s._id}
-                    style={{
-                        border: '1px solid #ccc',
-                        padding: 10,
-                        marginBottom: 10,
-                    }}
-                >
-                    <h3>{s.name}</h3>
-                    <p>Category: {s.category}</p>
-                    <p>Price: ₹{s.price}</p>
-                    <p>Stock: {s.quantity}</p>
-
-                    <button
-                        disabled={s.quantity === 0}
-                        onClick={() => purchaseSweet(s._id)}
-                    >
-                        Purchase
-                    </button>
-                </div>
-            ))}
+            {/* 🍬 SWEET CARDS */}
+            <div
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+                    gap: 20,
+                }}
+            >
+                {sweets.map((sweet) => (
+                    <SweetCard
+                        key={sweet._id}
+                        sweet={sweet}
+                        onPurchase={purchaseSweet}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

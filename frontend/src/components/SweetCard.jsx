@@ -1,29 +1,53 @@
-import { apiRequest } from '../api/api';
-
-export default function SweetCard({ sweet, refreshSweets, isAdmin }) {
-  const handlePurchase = async () => {
-    await apiRequest(`/sweets/${sweet._id}/purchase`, { method: 'POST', body: JSON.stringify({ quantity: 1 }) });
-    alert('Purchased!');
-    refreshSweets();
-  };
-
-  const handleDelete = async () => {
-    await apiRequest(`/sweets/${sweet._id}`, { method: 'DELETE' });
-    refreshSweets();
-  };
-
+export default function SweetCard({
+  sweet,
+  onPurchase,
+  onAddStock,
+  onUpdate,
+  onDelete,
+  isAdmin = false
+}) {
   return (
-    <div style={{ border: '1px solid #ccc', padding: 10, margin: 10 }}>
-      <h3>{sweet.name}</h3>
-      <p>Price: ₹{sweet.price}</p>
+    <div
+      style={{
+        width: 250,
+        borderRadius: 10,
+        boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+        padding: 15,
+        backgroundColor: '#fff',
+      }}
+    >
+      <h3 style={{ marginBottom: 5 }}>{sweet.name}</h3>
+      <p style={{ color: '#777' }}>{sweet.category}</p>
+
+      <p><strong>₹{sweet.price}</strong></p>
       <p>Stock: {sweet.quantity}</p>
 
-      <button onClick={handlePurchase} disabled={sweet.quantity === 0}>Purchase</button>
+      {/* USER BUTTON */}
+      {!isAdmin && (
+        <button
+          disabled={sweet.quantity === 0}
+          onClick={() => onPurchase(sweet._id)}
+          style={{
+            width: '100%',
+            padding: 8,
+            backgroundColor: sweet.quantity === 0 ? '#ccc' : '#4CAF50',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 5,
+            cursor: 'pointer'
+          }}
+        >
+          Purchase
+        </button>
+      )}
 
+      {/* ADMIN BUTTONS */}
       {isAdmin && (
-        <>
-          <button onClick={handleDelete} style={{ marginLeft: 10 }}>Delete</button>
-        </>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <button onClick={() => onAddStock(sweet._id)}>Add Stock</button>
+          <button onClick={() => onUpdate(sweet)}>Update</button>
+          <button onClick={() => onDelete(sweet._id)}>Delete</button>
+        </div>
       )}
     </div>
   );
