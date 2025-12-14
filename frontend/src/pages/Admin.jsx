@@ -8,6 +8,7 @@ export default function Admin() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showStockModal, setShowStockModal] = useState(false);
 
+  // Form state
   const [form, setForm] = useState({
     name: '',
     category: '',
@@ -15,6 +16,7 @@ export default function Admin() {
     quantity: '',
   });
 
+  // Current sweet being updated or restocked
   const [currentSweetId, setCurrentSweetId] = useState(null);
   const [currentStock, setCurrentStock] = useState(0);
 

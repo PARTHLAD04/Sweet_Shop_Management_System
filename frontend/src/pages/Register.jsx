@@ -4,6 +4,7 @@ import { apiRequest } from '../api/api';
 
 export default function Register() {
     const navigate = useNavigate();
+    // Form state
     const [form, setForm] = useState({
         username: '',
         email: '',
@@ -15,6 +16,7 @@ export default function Register() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    // Handle Registration
     const handleRegister = async () => {
         try {
             const data = await apiRequest('/auth/register', {

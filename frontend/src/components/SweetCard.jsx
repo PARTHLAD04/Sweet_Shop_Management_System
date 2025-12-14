@@ -8,6 +8,7 @@ export default function SweetCard({
   onDelete,
   isAdmin = false,
 }) {
+  // State for Stock Modal
   const [showStockModal, setShowStockModal] = useState(false);
   const [newStock, setNewStock] = useState(sweet.quantity);
 

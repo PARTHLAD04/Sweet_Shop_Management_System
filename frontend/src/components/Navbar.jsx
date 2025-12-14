@@ -2,9 +2,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const navigate = useNavigate();
+
+  // Retrieve token and role from localStorage
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
 
+  // Logout handler
   const handleLogout = () => {
     localStorage.clear();
     navigate('/login');

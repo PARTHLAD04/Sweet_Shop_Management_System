@@ -89,10 +89,13 @@ Sweet_Shop/
 - `npm run build`: Builds the app for production.
 - `npm run lint`: Runs ESLint for code quality.
 
-## 🤝 Contributing
-1. Fork the project.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+
+### 🤖 My AI Usage
+
+- **AI Tools Used**: GitHub Copilot, ChatGPT
+- **How I Used AI**: Assisted in creating backend API endpoints for sweets management, user authentication, and stock management. It helped scaffold routes, controllers, and Mongoose schema definitions.
+- **Reflection on AI Impact**: Guided the implementation of the frontend, including React components, modals, forms, and user/admin dashboards. Provided suggestions on state management, hooks, and TailwindCSS styling.
+
+
+
 
