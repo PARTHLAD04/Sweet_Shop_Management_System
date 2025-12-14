@@ -11,25 +11,20 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '10px 20px',
-        backgroundColor: '#222',
-        color: '#fff',
-      }}
-    >
-      {/* SHOP NAME */}
-      <h2>Sweets Shop 🍬</h2>
+    <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center shadow-md">
+      
+      {/* 🍬 SHOP NAME */}
+      <h2 className="text-2xl font-bold tracking-wide text-yellow-400">
+        Sweet Shop 🍬
+      </h2>
 
       {/* NAV LINKS */}
-      <div>
+      <div className="flex items-center gap-5">
+        
         {token && (
           <Link
             to={role === 'admin' ? '/admin' : '/dashboard'}
-            style={{ color: '#fff', marginRight: 15 }}
+            className="hover:text-yellow-400 transition font-medium"
           >
             Home
           </Link>
@@ -37,10 +32,17 @@ export default function Navbar() {
 
         {!token && (
           <>
-            <Link to="/login" style={{ color: '#fff', marginRight: 15 }}>
+            <Link
+              to="/login"
+              className="hover:text-yellow-400 transition font-medium"
+            >
               Login
             </Link>
-            <Link to="/register" style={{ color: '#fff' }}>
+
+            <Link
+              to="/register"
+              className="bg-yellow-400 text-gray-900 px-4 py-1.5 rounded-lg font-semibold hover:bg-yellow-500 transition"
+            >
               Sign Up
             </Link>
           </>
@@ -49,11 +51,7 @@ export default function Navbar() {
         {token && (
           <button
             onClick={handleLogout}
-            style={{
-              marginLeft: 15,
-              padding: '5px 10px',
-              cursor: 'pointer',
-            }}
+            className="bg-red-500 px-4 py-1.5 rounded-lg font-medium hover:bg-red-600 transition"
           >
             Logout
           </button>

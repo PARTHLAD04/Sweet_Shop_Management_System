@@ -8,7 +8,7 @@ export default function Register() {
         username: '',
         email: '',
         password: '',
-        role: 'user', // default role
+        role: 'user',
     });
 
     const handleChange = (e) => {
@@ -24,7 +24,7 @@ export default function Register() {
 
             // Save token and role
             localStorage.setItem('token', data.token);
-            localStorage.setItem('role', data.response.role); // save role for frontend
+            localStorage.setItem('role', data.response.role);
 
             alert('Registration successful');
             if (data.response.role === 'admin') {
@@ -38,38 +38,71 @@ export default function Register() {
     };
 
     return (
-        <div>
-            <h2>Sign Up</h2>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 px-4">
+            <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8">
 
-            <input
-                name="username"
-                placeholder="Username"
-                value={form.username}
-                onChange={handleChange}
-            />
+                <h2 className="text-3xl font-bold text-center text-purple-700 mb-6">
+                    Sign Up
+                </h2>
 
-            <input
-                name="email"
-                placeholder="Email"
-                value={form.email}
-                onChange={handleChange}
-            />
+                <div className="space-y-5">
 
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={handleChange}
-            />
+                    <input
+                        name="username"
+                        placeholder="Username"
+                        value={form.username}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
 
-            {/* Role Selector */}
-            <select name="role" value={form.role} onChange={handleChange}>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={form.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
 
-            <button onClick={handleRegister}>Register</button>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={form.password}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+
+                    {/* Role Selector */}
+                    <select
+                        name="role"
+                        value={form.role}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
+                    <button
+                        onClick={handleRegister}
+                        className="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-300"
+                    >
+                        Register
+                    </button>
+                </div>
+
+                <p className="text-center text-gray-500 text-sm mt-6">
+                    Already have an account?{' '}
+                    <span
+                        onClick={() => navigate('/login')}
+                        className="text-purple-600 font-medium cursor-pointer hover:underline"
+                    >
+                        Login
+                    </span>
+                </p>
+
+            </div>
         </div>
     );
 }

@@ -4,62 +4,31 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>🍬 Sweet Shop Management</h1>
-      <p style={styles.subtitle}>
-        Buy sweets online & manage inventory easily
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white text-center px-4">
+      
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-wide drop-shadow-md">
+        🍬 Sweet Shop Management
+      </h1>
+
+      <p className="text-lg md:text-xl mb-12 text-white/90 max-w-xl">
+        Buy delicious sweets online and manage inventory effortlessly
       </p>
 
-      <div style={styles.buttons}>
-        <button style={styles.loginBtn} onClick={() => navigate('/login')}>
+      <div className="flex gap-6">
+        <button
+          onClick={() => navigate('/login')}
+          className="px-8 py-3 text-lg font-semibold rounded-xl bg-white text-purple-600 shadow-lg hover:scale-105 hover:bg-gray-100 transition-all duration-300"
+        >
           Login
         </button>
 
-        <button style={styles.signupBtn} onClick={() => navigate('/register')}>
+        <button
+          onClick={() => navigate('/register')}
+          className="px-8 py-3 text-lg font-semibold rounded-xl bg-purple-700 text-white shadow-lg hover:bg-purple-800 hover:scale-105 transition-all duration-300"
+        >
           Sign Up
         </button>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: 'linear-gradient(135deg, #f59e0b, #ef4444)',
-    color: '#fff',
-    textAlign: 'center',
-  },
-  title: {
-    fontSize: '40px',
-    marginBottom: '10px',
-  },
-  subtitle: {
-    fontSize: '18px',
-    marginBottom: '30px',
-  },
-  buttons: {
-    display: 'flex',
-    gap: '20px',
-  },
-  loginBtn: {
-    padding: '10px 25px',
-    fontSize: '16px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  signupBtn: {
-    padding: '10px 25px',
-    fontSize: '16px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    backgroundColor: '#1f2937',
-    color: '#fff',
-  },
-};
